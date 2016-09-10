@@ -19,7 +19,9 @@ void loop(void)
 
     //8*16 font size��auto new line��black character on white back ground.
     LCD.FontModeConf(Font_6x8, FM_ANL_AAA, BLACK_BAC); 
-    LCD.DispStringAt("Hello World!", 0, 10);    //Display "Hello World!" on coordinate of (0, 10).
+
+    LCD.CharGotoXY(0,0);       //Set the start coordinate.
+    LCD.print("Hello World!");  //Display "Hello World!" on coordinate of (0, 10).
 
     while(1);//Wait for ever. 
 }
