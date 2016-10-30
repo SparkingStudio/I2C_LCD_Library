@@ -1,6 +1,6 @@
 /******************************************************************************
-  I2C_LCD.h - I2C_LCD library Version 1.11
-  Copyright (C), 2015, Sparking Work Space. All right reserved.
+  I2C_LCD.h - I2C_LCD library Version 1.22
+  Copyright (C), 2016, Sparking Work Space. All right reserved.
 
  ******************************************************************************
  
@@ -62,6 +62,8 @@ The default setting is use full API library and 2D Graphic API Library.
 #define     I2C_LCD_Y_SIZE_MAX      (64)
 
 #define     I2C_LCD_NUM_OF_FONT      (7)
+
+#define     I2C_LCD_TRANS_ONCE_BYTE_MAX      (6)
 
 
 /**************************************************************

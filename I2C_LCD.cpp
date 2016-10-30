@@ -157,7 +157,7 @@ void I2C_LCD::WriteRAMGotoXY(uint8_t x, uint8_t y)
 
 
 
-void I2C_LCD::SendBitmapData(const uint8_t *buf, uint8_t length)
+/*void I2C_LCD::SendBitmapData(const uint8_t *buf, uint8_t length)
 {
     uint8_t i;
     I2C_BUS_BeginTransmission(I2C_LCD_ADDRESS); // transmit device adress
@@ -167,7 +167,30 @@ void I2C_LCD::SendBitmapData(const uint8_t *buf, uint8_t length)
         I2C_BUS_WriteByte(pgm_read_byte_near(buf++)); 
     }
     I2C_BUS_EndTransmission();    // stop transmitting
+}*/
+
+void I2C_LCD::SendBitmapData(const uint8_t *buf, uint8_t length)
+{
+    uint8_t i;
+    uint16_t circleTimes, circleCounter, transBytesNum;
+    
+    circleTimes = length/I2C_LCD_TRANS_ONCE_BYTE_MAX + 1;
+    
+    for(circleCounter = 0; circleCounter < circleTimes; circleCounter ++)
+    {
+      if(circleCounter+1 >= circleTimes)
+        transBytesNum = length%I2C_LCD_TRANS_ONCE_BYTE_MAX;
+      else
+        transBytesNum = I2C_LCD_TRANS_ONCE_BYTE_MAX;
+      
+      I2C_BUS_BeginTransmission(I2C_LCD_ADDRESS); // transmit device adress
+      I2C_BUS_WriteByte(DisRAMAddr);        //  transmit register adress to the device
+      for(i = 0; i < transBytesNum; i ++)
+        I2C_BUS_WriteByte(pgm_read_byte_near(buf++)); 
+      I2C_BUS_EndTransmission();    // stop transmitting
+    }
 }
+
 
 void I2C_LCD::FontModeConf(enum LCD_FontSort font, enum LCD_FontMode mode, enum LCD_CharMode cMode)
 {
@@ -183,11 +206,8 @@ void I2C_LCD::DispCharAt(char buf, uint8_t x, uint8_t y)
 void I2C_LCD::DispStringAt(char *buf, uint8_t x, uint8_t y)
 {
     CharGotoXY(x,y);
-    I2C_BUS_BeginTransmission(I2C_LCD_ADDRESS); 
-    I2C_BUS_WriteByte(DisRAMAddr);   
     for(; *buf; buf++)
-        I2C_BUS_WriteByte(*buf);
-    I2C_BUS_EndTransmission();    // stop transmitting
+      WriteByteToReg(DisRAMAddr,*buf);
 }
 
 const uint8_t fontYsizeTab[I2C_LCD_NUM_OF_FONT] = {8, 12, 16, 16, 20, 24, 32};
