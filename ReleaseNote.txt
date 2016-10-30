@@ -1,6 +1,6 @@
 I2C_LCD Library version: v1.22                    20161030
 1. Solve the bug that bitmap can't display on LinkIt One board.
-2. Solve the bug that LCD.DispStringAt() function can't display string more than 7 characters. 
+2. Solve the bug that LCD.DispStringAt() function can't display string more than 7 characters on LinkIt One board. 
 
 I2C_LCD Library version: v1.21                    20160821
 1. Support LinkIt One and other compatible boards.
